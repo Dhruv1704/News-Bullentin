@@ -11,7 +11,7 @@ import {
 import LoadingBar from "react-top-loading-bar";
 
 const App = () => {
-    const pageSize = 6
+    const pageSize = 5
 
     const [progress, setProgress] = useState(0);
     const [country, setCountry] = useState("in");

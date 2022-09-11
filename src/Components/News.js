@@ -6,15 +6,16 @@ import Menu from "./Menu";
 
 
 const News = (props) => {
-    const apiKey = "10449f5abe674539bfcea0d7a3f211a1"
-    // const apiKey = "d6a71b0dc8974820aef4b84be03d948e"
+    // const apiKey = "10449f5abe674539bfcea0d7a3f211a1"
+    const apiKey = "d6a71b0dc8974820aef4b84be03d948e"
+    // const apiKey = "1f752d733f734af3bfc1c907300496ac"
+    // const apiKey = "cLmatSBFo8RVDSjp2q4NaAsJndDey2z85zvD3ksB";  // the newsapi
     // const apiKey = "1f752d733f734af3bfc1c907300496ac"
 
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [totalResults, setTotalResults] = useState(0);
-
 
     const capatalize = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -29,27 +30,30 @@ const News = (props) => {
 
     const update = async () => {  // Wll run after render() is done executing.
         props.changeProgress(10)
-        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pageSize}`
+        let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pageSize}`
+        // let url =`https://mycorsproxy-d.herokuapp.com/https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=${props.country}&limit=${props.pageSize}&categories=${props.category}&page=${page}`
+        // let data = await fetch(url)
         let data = await fetch(url)
         props.changeProgress(30)
-        let parsedData = await data.json()
+        let parsedData =  await data.json();
         props.changeProgress(50)
         setArticles(parsedData.articles)
-        setLoading(false)
-        setPage(page)
         setTotalResults(parsedData.totalResults)
+        setLoading(false)
         props.changeProgress(100)
     }
 
 
     const fetchMoreData = async () => {
         // duplicate problem due to setState is asynchronous  this.setState{page : this.state.page+1}
-        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page + 1}&pageSize=${props.pageSize}`
+        let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page + 1}&pageSize=${props.pageSize}`
+        // let data = await fetch(url)
+        // let parsedData = await data.json()
+        // let url =`https://mycorsproxy-d.herokuapp.com/https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=${props.country}&page=${page+1}&limit=${props.pageSize}&categories=${props.category}`
         let data = await fetch(url)
-        let parsedData = await data.json()
+        let parsedData =  await data.json();
         setPage(page + 1)
         setArticles(articles.concat(parsedData.articles))
-        setTotalResults(parsedData.totalResults)
     }
 
     const showMenu = () => {
@@ -106,7 +110,7 @@ const News = (props) => {
                         <div className={"row"}>
                             {articles.map((element, index) => {
                                 return <NewsCard title={element.title} description={element.content} key={index}
-                                                 img={!element.urlToImage ? "https://cdn.telanganatoday.com/wp-content/uploads/2022/08/iPhone-14-Pro-models-likely-to-come-with-new-ultra-wide-camera.jpg" : element.urlToImage}
+                                                 img={!element.urlToImage? "https://cdn.telanganatoday.com/wp-content/uploads/2022/08/iPhone-14-Pro-models-likely-to-come-with-new-ultra-wide-camera.jpg" : element.urlToImage}
                                                  url={element.url} author={element.author} date={element.publishedAt}/>
                             })}
                         </div>
