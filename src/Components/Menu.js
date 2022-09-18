@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 export default function Menu(props) {
     const showNews = ()=> {
-        if (window.innerWidth < 1488) {
+        if (window.innerWidth <= 1053) {
             document.body.style.background = "white"
             setTimeout(() => {
                 const news = document.getElementById('news-div')
@@ -51,7 +51,7 @@ export default function Menu(props) {
                     <Link to={`/${props.country}/business`} className="nav-item" onClick={showNews}>Business</Link>
                 </li>
                 <li>
-                    <Link to={`/${props.country}/health`} className="nav-item" onClick={showNews}>Health</Link>
+                    <Link to={`/${props.country}/beauty`} className="nav-item" onClick={showNews}>Beauty</Link>
                 </li>
                 <li>
                     <Link to={`/${props.country}/science`} className="nav-item" onClick={showNews}>Science

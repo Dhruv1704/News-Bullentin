@@ -11,7 +11,7 @@ import {
 import LoadingBar from "react-top-loading-bar";
 
 const App = () => {
-    const pageSize = 5
+    const pageSize = 8
 
     const [progress, setProgress] = useState(0);
     const [country, setCountry] = useState("in");
@@ -21,13 +21,13 @@ const App = () => {
         setProgress(progress)
     }
 
-    const changeCountry = (country)=>{
+    const changeCountry = (country) => {
         setCountry(country)
     }
 
-    const toggleMode = ()=>{
+    const toggleMode = () => {
         const navItem = document.getElementsByClassName('nav-item')
-        if(mode==="Dark"){
+        if (mode === "Dark") {
             setMode("Light")
             document.body.style.background = "#181a1b"
             document.body.style.color = "white"
@@ -35,8 +35,7 @@ const App = () => {
             for (let i = 0; i < navItem.length; i++) {
                 navItem[i].style.color = "white"
             }
-        }
-        else{
+        } else {
             setMode("Dark")
             document.body.style.background = "white"
             document.body.style.color = "black"
@@ -44,6 +43,7 @@ const App = () => {
             for (let i = 0; i < navItem.length; i++) {
                 navItem[i].style.color = "black"
             }
+
         }
     }
 
@@ -58,28 +58,36 @@ const App = () => {
                 />
                 <Routes>
                     <Route exact path="/"
-                           element={<News changeProgress={changeProgress} key={`${country} general`} category={"general"}
+                           element={<News changeProgress={changeProgress} key={`${country} general`} category={"news"}
+                                          mode={mode}
                                           country={"in"} changeCountry={changeCountry} pageSize={pageSize}/>}/>
                     <Route exact path={`/${country}/business`}
-                           element={<News changeProgress={changeProgress} key={`${country} business`} category={"business"}
-                                         country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
-                    <Route exact path={`/${country}/entertainment`}
-                           element={<News changeProgress={changeProgress} key={`${country} entertainment`} category={"entertainment"}
-                                         country={country} pchangeCountry={changeCountry} ageSize={pageSize}/>}/>
-                    <Route exact path={`/${country}/general`}
-                           element={<News changeProgress={changeProgress} key={`${country} general`} category={"general"}
+                           element={<News changeProgress={changeProgress} key={`${country} business`}
+                                          category={"business"} mode={mode}
                                           country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
-                    <Route exact path={`/${country}/health`}
-                           element={<News changeProgress={changeProgress} key={`${country} health`} category={"health"}
+                    <Route exact path={`/${country}/entertainment`}
+                           element={<News changeProgress={changeProgress} key={`${country} entertainment`}
+                                          category={"entertainment"} mode={mode}
+                                          country={country} pchangeCountry={changeCountry} ageSize={pageSize}/>}/>
+                    <Route exact path={`/${country}/general`}
+                           element={<News changeProgress={changeProgress} key={`${country} general`} category={"news"}
+                                          mode={mode}
+                                          country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
+                    <Route exact path={`/${country}/beauty`}
+                           element={<News changeProgress={changeProgress} key={`${country} health`} category={"beauty"}
+                                          mode={mode}
                                           country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
                     <Route exact path={`/${country}/science`}
-                           element={<News changeProgress={changeProgress} key={`${country} science`} category={"science"}
+                           element={<News changeProgress={changeProgress} key={`${country} science`}
+                                          category={"science"} mode={mode}
                                           country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
                     <Route exact path={`/${country}/sports`}
                            element={<News changeProgress={changeProgress} key={`${country} sports`} category={"sports"}
+                                          mode={mode}
                                           country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
                     <Route exact path={`/${country}/technology`}
-                           element={<News changeProgress={changeProgress} key={`${country} technology`} category={"technology"}
+                           element={<News changeProgress={changeProgress} key={`${country} technology`}
+                                          category={"tech"} mode={mode}
                                           country={country} changeCountry={changeCountry} pageSize={pageSize}/>}/>
                 </Routes>
             </BrowserRouter>

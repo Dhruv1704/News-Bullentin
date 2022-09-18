@@ -64,6 +64,7 @@ h1{
 
 #nav{
   display: flex;
+  justify-content: space-between;
 }
 
 .title-div{
@@ -83,7 +84,6 @@ li{
 
 
 .dark-div{
-  margin-left: auto;
   padding: 1em;
 }
 
@@ -109,8 +109,17 @@ li{
   transform: scale(1.1);
 }
 
+.btn{
+  text-decoration: none;
+  color: white;
+  background: #5fd9fb;
+  padding: 0.5em;
+  border-radius: 4px;
+}
+
 .card{
-  border: 1px solid grey;
+  /*border: 1px solid grey;*/
+  box-shadow: 0 0  10px 8px #e5e5e6;
   border-radius: 6px;
   padding-bottom: 1em;
   width: 368px;
@@ -121,11 +130,12 @@ li{
 }
 
 .row{
+  padding-top: 1.2em;
   display: grid;
   grid-template-columns: repeat(auto-fill,368px);
   justify-content: space-evenly;
-  flex-wrap: wrap;
-  row-gap: 2em;
+  grid-row-gap: 2em;
+  grid-column-gap: 1em;
 }
 
 .img{
@@ -163,9 +173,9 @@ li{
 
 #menu{
   padding-left: 1.5em;
+  font-size: 1.25rem;
   display: none;
 }
-
 
 @media screen and (min-width: 1053px) {
   #menu-button{
@@ -184,27 +194,15 @@ li{
   }
 
   #menu {
-    display: block;
+    display: block !important;
     grid-area: m;
-    padding-top: 4em;
+    padding-top: 3em;
     position: fixed;
     right: 0;
-    left: 76%;
+    left: 80%;
     height: 99vh;
     background: #f7f7f7;
   }
-}
-
-
-@media  screen and (min-width: 1472px) { /*1488*/
-
-  .container{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    grid-template-areas:
-            "n n n m";
-  }
-
 }
 
 /*problems
@@ -213,4 +211,8 @@ li{
 3)/ eslint-disable-next-line react-hooks/exhaustive-deps
 problem here infinte api calls as useEffect runs multiple times, use [] to solve.  imp
 4)react router exact path.
-5)react router key(change component) not updating the props(same News component instead of 'about' component in textutilts)*/
+5)react router key(change component) not updating the props(same News component instead of 'about' component in textutilts)
+6) CSS media query menu display block !important. in mobile form after menu open then close resizing to desktop size the menu display remains none.
+
+1)dark mode css
+2)title logo*/

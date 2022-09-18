@@ -10,7 +10,7 @@ const Navbar = (props) => {
                     <Link to="/" className="site-title">NEWS BULLETIN</Link>
                 </div>
                 <div className="dark-div">
-                    <button type="button" className="dark-btn" onClick={props.toggleMode}>{`Enable ${props.mode} Mode`}</button>
+                    <button type="button" className="dark-btn" id={"dark"} onClick={props.toggleMode}>{`Enable ${props.mode} Mode`}</button>
                 </div>
             </nav>
         </div>

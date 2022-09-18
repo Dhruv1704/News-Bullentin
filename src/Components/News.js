@@ -6,16 +6,18 @@ import Menu from "./Menu";
 
 
 const News = (props) => {
+    let axios = require("axios").default;
     // const apiKey = "10449f5abe674539bfcea0d7a3f211a1"
-    const apiKey = "d6a71b0dc8974820aef4b84be03d948e"
+    // const apiKey = "d6a71b0dc8974820aef4b84be03d948e"
     // const apiKey = "1f752d733f734af3bfc1c907300496ac"
     // const apiKey = "cLmatSBFo8RVDSjp2q4NaAsJndDey2z85zvD3ksB";  // the newsapi
     // const apiKey = "1f752d733f734af3bfc1c907300496ac"
+    const apiKey = "nnkpqabxlsJyTcY7DdlZErzZ4iom0amt5Ja6S-5g1fE";
+    // const apiKey = "f0e37a95198478377e5ff3b1b55ec553"
 
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(true);
-    const [totalResults, setTotalResults] = useState(0);
+    const totalResults = 68;
 
     const capatalize = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -30,28 +32,45 @@ const News = (props) => {
 
     const update = async () => {  // Wll run after render() is done executing.
         props.changeProgress(10)
-        let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pageSize}`
+        // let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pageSize}`
         // let url =`https://mycorsproxy-d.herokuapp.com/https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=${props.country}&limit=${props.pageSize}&categories=${props.category}&page=${page}`
         // let data = await fetch(url)
-        let data = await fetch(url)
+        let url = `https://api.newscatcherapi.com/v2/latest_headlines?&countries=${props.country}&topic=${props.category}&page=${page}&page_size=${props.pageSize}&lang=en`
+        let options = {
+            method: 'GET',
+            url: url,
+            headers: {
+                'x-api-key': apiKey
+            }
+        };
+        let data = axios.request(options)
         props.changeProgress(30)
-        let parsedData =  await data.json();
+        let parsedData = (await data).data
         props.changeProgress(50)
         setArticles(parsedData.articles)
-        setTotalResults(parsedData.totalResults)
-        setLoading(false)
         props.changeProgress(100)
     }
 
 
     const fetchMoreData = async () => {
         // duplicate problem due to setState is asynchronous  this.setState{page : this.state.page+1}
-        let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page + 1}&pageSize=${props.pageSize}`
+        // let url = `https://mycorsproxy-d.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page + 1}&pageSize=${props.pageSize}`
         // let data = await fetch(url)
         // let parsedData = await data.json()
         // let url =`https://mycorsproxy-d.herokuapp.com/https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=${props.country}&page=${page+1}&limit=${props.pageSize}&categories=${props.category}`
-        let data = await fetch(url)
-        let parsedData =  await data.json();
+        // let url = `http://api.mediastack.com/v1/news?access_key=${apiKey}&keywords=general&countries=us`
+        // let data = await fetch(url)
+        // let parsedData =  await data.json();
+        let url = `https://api.newscatcherapi.com/v2/latest_headlines?&countries=${props.country}&topic=${props.category}&page=${page+1}&page_size=${props.pageSize}&lang=en`
+        let options = {
+            method: 'GET',
+            url: url,
+            headers: {
+                'x-api-key': apiKey
+            }
+        };
+        let data = axios.request(options)
+        let parsedData = (await data).data
         setPage(page + 1)
         setArticles(articles.concat(parsedData.articles))
     }
@@ -60,15 +79,28 @@ const News = (props) => {
         const news = document.getElementById('news-div')
         const menu = document.getElementById('menu')
         const menuText = document.getElementById('menu-text')
+        const darkBtn = document.getElementById('dark')
         if (news.style.display === "block") {
             news.style.display = "none";
             menu.style.display = "block";
+            darkBtn.style.display = 'none'
             menuText.textContent = "Close"
-            document.body.style.background = "#dddddd"
+            if(props.mode==="Light"){
+                document.body.style.background = "#1d1f20"
+            }
+            else{
+                document.body.style.background = "#f7f7f7"
+            }
         } else {
             menu.style.display = "none";
             news.style.display = "block";
-            document.body.style.background = "white"
+            darkBtn.style.display = 'block'
+            if(props.mode==="Light"){
+                document.body.style.background = "#181a1b"
+            }
+            else{
+                document.body.style.background = "white"
+            }
             menuText.textContent = "Menu"
         }
     }
@@ -93,7 +125,6 @@ const News = (props) => {
         <div className={"container"}>
             <div id={"news-div"}>
                 <h1>{`Top ${countryName(props.country)}'s ${capatalize(props.category)} Headlines`}</h1>
-                {loading && <Spinner/>}
 
                 <InfiniteScroll
                     dataLength={articles.length}
@@ -109,9 +140,9 @@ const News = (props) => {
                     <div id={"news-row"}>
                         <div className={"row"}>
                             {articles.map((element, index) => {
-                                return <NewsCard title={element.title} description={element.content} key={index}
-                                                 img={!element.urlToImage? "https://cdn.telanganatoday.com/wp-content/uploads/2022/08/iPhone-14-Pro-models-likely-to-come-with-new-ultra-wide-camera.jpg" : element.urlToImage}
-                                                 url={element.url} author={element.author} date={element.publishedAt}/>
+                                return <NewsCard title={element.title} description={element.summary.slice(0,230)+"..."} key={index}
+                                                 img={!element.media? "https://cdn.telanganatoday.com/wp-content/uploads/2022/08/iPhone-14-Pro-models-likely-to-come-with-new-ultra-wide-camera.jpg" : element.media}
+                                                 url={element.link} author={element.author} date={element.published_date}/>
                             })}
                         </div>
                     </div>
