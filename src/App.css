@@ -1,43 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
 body{
   font-family:  'Ubuntu', sans-serif;
   margin: 0;
@@ -118,7 +78,6 @@ li{
 }
 
 .card{
-  /*border: 1px solid grey;*/
   box-shadow: 0 0  10px 8px #e5e5e6;
   border-radius: 6px;
   padding-bottom: 1em;
@@ -175,6 +134,21 @@ li{
   padding-left: 1.5em;
   font-size: 1.25rem;
   display: none;
+  height: 92vh;
+  background: #f7f7f7;
+}
+
+h3{
+  margin-top: 0;
+  padding-top: 1.5em;
+}
+
+.dark{
+  background: #1d1f20!important;
+}
+
+.dark-font-color{
+  color: white;
 }
 
 @media screen and (min-width: 1053px) {
@@ -190,6 +164,7 @@ li{
   }
 
   #news-div{
+    display: block!important;
     grid-area: n;
   }
 
@@ -200,8 +175,7 @@ li{
     position: fixed;
     right: 0;
     left: 80%;
-    height: 99vh;
-    background: #f7f7f7;
+    /*height: 99vh;*/
   }
 }
 
@@ -211,7 +185,7 @@ li{
 3)/ eslint-disable-next-line react-hooks/exhaustive-deps
 problem here infinte api calls as useEffect runs multiple times, use [] to solve.  imp
 4)react router exact path.
-5)react router key(change component) not updating the props(same News component instead of 'about' component in textutilts)
+5)react router key(change component) not updating the props(same News component instead of 'about' component in textutilts)problem here infinte api calls as useEffect runs multiple times, use [] to solve.  imp
 6) CSS media query menu display block !important. in mobile form after menu open then close resizing to desktop size the menu display remains none.
 
 1)dark mode css
